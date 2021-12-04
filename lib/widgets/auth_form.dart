@@ -21,6 +21,8 @@ class _AuthFormState extends State<AuthForm> {
       print(_userName);
       print(_userEmail);
       print(_userPassword);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => HomePage()));
     }
   }
 
@@ -197,8 +199,6 @@ class _AuthFormState extends State<AuthForm> {
                     color: Colors.brown,
                     onPressed: () {
                       _trySubmit();
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (ctx) => HomePage()));
                     },
                   ),
                 ),
