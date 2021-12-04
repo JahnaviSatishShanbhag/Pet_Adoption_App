@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor: Colors.brown,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
           body: CustomScrollView(
         primary: false,
         slivers: <Widget>[

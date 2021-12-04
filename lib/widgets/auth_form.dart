@@ -22,7 +22,7 @@ class _AuthFormState extends State<AuthForm> {
       print(_userEmail);
       print(_userPassword);
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => HomePage()));
+          .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
     }
   }
 
@@ -57,8 +57,9 @@ class _AuthFormState extends State<AuthForm> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            color: Colors.black,
+                            color: Colors.brown,
                             style: BorderStyle.solid,
+                            width:100,
                           ),
                           borderRadius: BorderRadius.circular(
                             25,
@@ -70,16 +71,16 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                         fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
                         filled: true,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.brown,
-                            width: 3.0,
-                            style: BorderStyle.solid,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            25,
-                          ),
-                        ),
+                        // focusedBorder: OutlineInputBorder(
+                        //   borderSide: const BorderSide(
+                        //     color: Colors.brown,
+                        //     width: 3.0,
+                        //     style: BorderStyle.solid,
+                        //   ),
+                        //   borderRadius: BorderRadius.circular(
+                        //     25,
+                        //   ),
+                        // ),
                       ),
                       onSaved: (value) {
                         _userName = value as String;
@@ -113,7 +114,7 @@ class _AuthFormState extends State<AuthForm> {
                       hintStyle: const TextStyle(
                         fontSize: 17,
                       ),
-                      fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
+                      fillColor: const Color.fromRGBO(241, 194, 125, 1),
                       filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
@@ -148,7 +149,7 @@ class _AuthFormState extends State<AuthForm> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: Colors.black,
+                          color: Colors.brown,
                           style: BorderStyle.solid,
                         ),
                         borderRadius: BorderRadius.circular(
@@ -159,7 +160,7 @@ class _AuthFormState extends State<AuthForm> {
                       hintStyle: const TextStyle(
                         fontSize: 17,
                       ),
-                      fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
+                      fillColor: const Color.fromRGBO(241, 194, 125, 1),
                       filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
