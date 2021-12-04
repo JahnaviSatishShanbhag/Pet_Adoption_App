@@ -7,12 +7,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Pet adoption app',
       theme: ThemeData(
-        // primarySwatch: Colors.green ,
+        primarySwatch: Colors.blue ,
         // accentColor:Colors.brown,
       ),
       home: AuthScreen(),
