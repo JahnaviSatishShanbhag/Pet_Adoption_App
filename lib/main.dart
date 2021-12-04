@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../screens/auth_screen.dart';
+import 'package:pet_adoption_app/screens/auth_screen.dart';
 
 void main() {
   runApp(MyApp());
