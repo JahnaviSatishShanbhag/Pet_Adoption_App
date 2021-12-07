@@ -14,7 +14,11 @@ class CategoryItem extends StatelessWidget {
   );
 
   void _selectCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(CategoryAnimalsScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(CategoryAnimalsScreen.routeName, arguments: {
+      'id': id,
+      'title': title,
+    });
   }
 
   @override

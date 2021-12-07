@@ -39,9 +39,9 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: colorCustom,
         accentColor:Colors.white,
       ),
-      home: HomeScreen(),
+      initialRoute: '/',
       routes:{
-        // CategoryAnimalsScreen.routeName:(ctx) => CategoryAnimalsScreen(),
+        '/':(ctx) => HomeScreen(),
         CategoryAnimalsScreen.routeName:(context) => CategoryAnimalsScreen(),
       },
     );
