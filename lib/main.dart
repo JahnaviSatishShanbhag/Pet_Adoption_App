@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Pet adoption app',
       theme: ThemeData(
         primarySwatch: colorCustom,
-        // accentColor:Colors.brown,
+        accentColor:Colors.white,
       ),
       home: HomeScreen(),
       routes:{
