@@ -13,15 +13,15 @@ class CategoryItem extends StatelessWidget {
     this.colour,
   );
 
-  // void _selectCategory(BuildContext context) {
-  //   Navigator.of(context).pushNamed(Test.routeName);
-  // }
+  void _selectCategory(BuildContext context) {
+    Navigator.of(context).pushNamed(CategoryAnimalsScreen.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(CategoryAnimalsScreen.routeName);
+        _selectCategory(context);
       },
       child: Container(
         child: Center(
