@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
 import './screens/home_screen.dart';
-import './widgets/category_item.dart';
 
 void main() {
   runApp(MyApp());

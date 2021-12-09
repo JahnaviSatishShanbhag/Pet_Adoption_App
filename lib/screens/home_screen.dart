@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
             child: GridView(
               shrinkWrap: true,
               children: [
-                ...DUMMY_ANIMALS
+                ...DUMMY_ANIMALS_CATEGORY
                     .map((category) => CategoryItem(
                         category.id, category.title, category.color))
                     .toList()
