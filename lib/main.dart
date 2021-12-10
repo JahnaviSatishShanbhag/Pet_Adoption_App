@@ -36,14 +36,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Pet adoption app',
       theme: ThemeData(
         primarySwatch: colorCustom,
-        accentColor:Colors.white,
+        accentColor: Colors.white,
       ),
       initialRoute: '/',
-      routes:{
-        '/':(ctx) => HomeScreen(),
-        CategoryAnimalsScreen.routeName:(context) => CategoryAnimalsScreen(),
+      routes: {
+        '/': (ctx) => HomeScreen(),
+        CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
       },
     );
   }
 }
-
