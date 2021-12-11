@@ -43,7 +43,6 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => HomeScreen(),
         CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
-        PetScreen.routeName: (context) => PetScreen(),
       },
     );
   }
