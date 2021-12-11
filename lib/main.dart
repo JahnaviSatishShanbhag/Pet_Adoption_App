@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
 import './screens/home_screen.dart';
 import './screens/pet_screen.dart';
+import './providers/animals.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   Map<int, Color> color = {
     50: const Color.fromRGBO(255, 241, 175, .1),
     100: const Color.fromRGBO(255, 241, 175, .2),
@@ -33,18 +30,25 @@ class _MyAppState extends State<MyApp> {
     // int argbColor = Color.argb(255, 118, 118, 188);
     MaterialColor colorCustom = MaterialColor(0xFFFFF1AF, color);
 
-    return MaterialApp(
-      title: 'Pet adoption app',
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-        accentColor: Colors.white,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Animals(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Pet adoption app',
+        theme: ThemeData(
+          primarySwatch: colorCustom,
+          accentColor: Colors.white,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (ctx) => HomeScreen(),
+          CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
+          PetScreen.routeName: (context) => PetScreen(),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (ctx) => HomeScreen(),
-        CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
-        PetScreen.routeName:(context) => PetScreen(),
-      },
     );
   }
 }

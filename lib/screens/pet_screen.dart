@@ -11,12 +11,15 @@ class PetScreen extends StatefulWidget {
 }
 
 class _PetScreenState extends State<PetScreen> {
+
   @override
   Widget build(BuildContext context) {
+    Map<String,String> routeArgs=ModalRoute.of(context)!.settings.arguments as Map<String,String> ;
+
     return Scaffold(
       appBar: Appbar(),
       backgroundColor: Theme.of(context).primaryColor,
-      body: PetForm(),
+      body: PetForm(routeArgs['categoryId'] as String),
     );
   }
 }

@@ -1,4 +1,4 @@
-class Animal {
+class Animal{
   String id;
   String name;
   String category;
@@ -12,4 +12,5 @@ class Animal {
     required this.description,
     required this.imageUrl,
   });
+
 }
