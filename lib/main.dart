@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
 import './screens/home_screen.dart';
+import './screens/pet_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,14 +37,14 @@ class _MyAppState extends State<MyApp> {
       title: 'Pet adoption app',
       theme: ThemeData(
         primarySwatch: colorCustom,
-        accentColor:Colors.white,
+        accentColor: Colors.white,
       ),
       initialRoute: '/',
-      routes:{
-        '/':(ctx) => HomeScreen(),
-        CategoryAnimalsScreen.routeName:(context) => CategoryAnimalsScreen(),
+      routes: {
+        '/': (ctx) => HomeScreen(),
+        CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
+        PetScreen.routeName: (context) => PetScreen(),
       },
     );
   }
 }
-

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption_app/screens/pet_screen.dart';
 
 import '../dummy_data.dart';
 import '../widgets/appbar_drawer.dart';
 import '../models/animal_in_category.dart';
+import '../widgets/pet_form.dart';
 
 class CategoryAnimalsScreen extends StatelessWidget {
   static const routeName = '/category-animals';
@@ -70,6 +72,13 @@ class CategoryAnimalsScreen extends StatelessWidget {
                     ),
                   ))
               .toList(),
+          RaisedButton(
+              child: const Text('Add'),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  PetScreen.routeName,
+                );
+              }),
         ],
       ),
     );
