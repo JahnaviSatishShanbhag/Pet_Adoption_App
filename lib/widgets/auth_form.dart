@@ -59,7 +59,7 @@ class _AuthFormState extends State<AuthForm> {
                           borderSide: const BorderSide(
                             color: Colors.brown,
                             style: BorderStyle.solid,
-                            width:100,
+                            width: 100,
                           ),
                           borderRadius: BorderRadius.circular(
                             25,
