@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/animals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PetForm extends StatefulWidget {
   final String categoryId;
@@ -19,20 +17,28 @@ class _PetFormState extends State<PetForm> {
   String _location = "";
   String _description = "";
   String _breed = "";
-  String _age = "";
+  num _age = 0;
 
-  void _submitForm(BuildContext context) {
+  // bool _isEmpty()
+  // {
+  //   return _name.trim().isEmpty && _location.trim().isEmpty && _description.trim().isEmpty && _breed.trim().isEmpty && _age == 0;
+  // }
+
+  void _submitForm(BuildContext context) async {
     bool _isValid = _formKey.currentState!.validate();
     if (_isValid) {
       _formKey.currentState!.save();
-      Provider.of<Animals>(context, listen: false)
-          .addPet(widget.categoryId, _name, _description);
+      // Provider.of<Animals>(context, listen: false)
+      //     .addPet(widget.categoryId, _name, _description);
+      await FirebaseFirestore.instance.collection('pets_in_category').add({
+        'name': _name,
+        'age': _age,
+        'description': _description,
+        'breed': _breed,
+        'location': _location,
+        'category': widget.categoryId,
+      });
       Navigator.of(context).pop();
-      // print(_name);
-      // print(_location);
-      // print(_description);
-      // print(_breed);
-      // print(_age);
     }
   }
 
@@ -136,7 +142,7 @@ class _PetFormState extends State<PetForm> {
           return null;
         },
         onSaved: (value) {
-          _name = value as String;
+          _location = value as String;
         },
       ),
     );
@@ -182,7 +188,7 @@ class _PetFormState extends State<PetForm> {
           return null;
         },
         onSaved: (value) {
-          _name = value as String;
+          _breed = value as String;
         },
       ),
     );
@@ -228,7 +234,7 @@ class _PetFormState extends State<PetForm> {
           return null;
         },
         onSaved: (value) {
-          _name = value as String;
+          _age = int.parse(value as String);
         },
       ),
     );
@@ -274,7 +280,7 @@ class _PetFormState extends State<PetForm> {
           return null;
         },
         onSaved: (value) {
-          _name = value as String;
+          _description = value as String;
         },
       ),
     );
@@ -312,158 +318,3 @@ class _PetFormState extends State<PetForm> {
     );
   }
 }
-
-// Widget _buildDescription() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(
-  //       bottom: 10,
-  //     ),
-  //     child: TextFormField(
-  //       key: const ValueKey('password'),
-  //       obscureText: true,
-  //       cursorColor: Colors.brown,
-  //       validator: (value) {
-  //         if (value!.isEmpty || value.length < 7) {
-  //           return 'Password length should not be less than 7';
-  //         }
-  //         return null;
-  //       },
-  //       decoration: InputDecoration(
-  //         border: OutlineInputBorder(
-  //           borderSide: const BorderSide(
-  //             color: Colors.brown,
-  //             style: BorderStyle.solid,
-  //           ),
-  //           borderRadius: BorderRadius.circular(
-  //             25,
-  //           ),
-  //         ),
-  //         hintText: 'Enter your password',
-  //         hintStyle: const TextStyle(
-  //           fontSize: 17,
-  //         ),
-  //         fillColor: const Color.fromRGBO(241, 194, 125, 1),
-  //         filled: true,
-  //         focusedBorder: OutlineInputBorder(
-  //           borderSide: const BorderSide(
-  //             color: Colors.brown,
-  //             width: 3.0,
-  //             style: BorderStyle.solid,
-  //           ),
-  //           borderRadius: BorderRadius.circular(
-  //             25,
-  //           ),
-  //         ),
-  //       ),
-  //       onSaved: (value) {
-  //         _description = value as String;
-  //       },
-  //     ),
-  //   );
-  //             ),Container(
-  //   margin: const EdgeInsets.only(
-  //     bottom: 10,
-  //   ),
-  //   child: TextFormField(
-  //     decoration: InputDecoration(
-  //       border: OutlineInputBorder(
-  //         borderSide: const BorderSide(
-  //           color: Colors.brown,
-  //           style: BorderStyle.solid,
-  //           width: 100,
-  //         ),
-  //         borderRadius: BorderRadius.circular(
-  //           25,
-  //         ),
-  //       ),
-  //       hintText: 'Description',
-  //       hintStyle: const TextStyle(
-  //         fontSize: 17,
-  //       ),
-  //       fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
-  //       filled: true,
-  //     ),
-  //     validator: (value) {
-  //       if (value!.isEmpty || value.length < 5) {
-  //         return 'Enter description with minum length 5';
-  //       }
-  //       return null;
-  //     },
-  //     onSaved: (value) {
-  //       _description = value as String;
-  //     },
-  //   ),
-  // );
-  // }
-
-  // Widget _buildBreed() {
-  //   return Container(
-  //       margin: const EdgeInsets.only(
-  //         bottom: 10,
-  //       ),
-  //       child: TextFormField(
-  //         decoration: InputDecoration(
-  //           border: OutlineInputBorder(
-  //             borderSide: const BorderSide(
-  //               color: Colors.brown,
-  //               style: BorderStyle.solid,
-  //               width: 100,
-  //             ),
-  //             borderRadius: BorderRadius.circular(
-  //               25,
-  //             ),
-  //           ),
-  //           hintText: 'Breed',
-  //           hintStyle: const TextStyle(
-  //             fontSize: 17,
-  //           ),
-  //           fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
-  //           filled: true,
-  //         ),
-  //         validator: (value) {
-  //           if (value!.isEmpty || value.length < 5) {
-  //             return 'Enter the breed with minimum length 5';
-  //           }
-  //           return null;
-  //         },
-  //         onSaved: (value) {
-  //           _breed = value as String;
-  //         },
-  //       ));
-  // }
-
-  // Widget _buildAge() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(
-  //       bottom: 10,
-  //     ),
-  //     child: TextFormField(
-  //       decoration: InputDecoration(
-  //         border: OutlineInputBorder(
-  //           borderSide: const BorderSide(
-  //             color: Colors.brown,
-  //             style: BorderStyle.solid,
-  //             width: 100,
-  //           ),
-  //           borderRadius: BorderRadius.circular(
-  //             25,
-  //           ),
-  //         ),
-  //         hintText: 'Age',
-  //         hintStyle: const TextStyle(
-  //           fontSize: 17,
-  //         ),
-  //         fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
-  //         filled: true,
-  //       ),
-  //       validator: (value) {
-  //         if (value!.isEmpty) {
-  //           return 'Enter the age of your pet';
-  //         }
-  //         return null;
-  //       },
-  //       onSaved: (value) {
-  //         _age = value as String;
-  //       },
-  //     ),
-  //   );
