@@ -1,33 +1,46 @@
-// ignore_for_file: camel_case_types
+import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import './appbardrawer.dart';
+import '../widgets/appbar_drawer.dart';
 
-class petdesc extends StatelessWidget {
-  const petdesc({ Key? key }) : super(key: key);
+class PetDesc extends StatelessWidget {
+  static const routeName = '/pet-description-screen';
 
   @override
   Widget build(BuildContext context) {
-    
+    Map<String, String> routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
     return Scaffold(
       appBar: Appbar(),
-      drawer: MainDrawer(),
       backgroundColor: Theme.of(context).primaryColor,
-      body: Center (child:SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const CircleAvatar(
-                          backgroundColor: Colors.brown,
-                          radius: 50,
-                        ),
-
-             
-              Container(
-                 child: const Padding (padding:EdgeInsets.all(20),
-                    child:Text("Pet name")
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance
+            .collection('pets_in_category')
+            .doc(routeArgs['pet_id'] as String)
+            .get(),
+        builder: (ctx, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else{
+            return Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.brown,
+                      radius: 50,
                     ),
-                      margin: const EdgeInsets.all(25,
+                    Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(snapshot.data!['name']),),
+                      margin: const EdgeInsets.all(
+                        25,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -39,15 +52,12 @@ class petdesc extends StatelessWidget {
                           30,
                         ),
                       ),
-                      
                     ),
-             
                     Container(
-                      child: const Padding (padding:EdgeInsets.all(20),
-                    child:Text("description")
-                    ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(snapshot.data!['age'].toString())),
                       margin: const EdgeInsets.all(25),
-                      
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -58,14 +68,11 @@ class petdesc extends StatelessWidget {
                           30,
                         ),
                       ),
-                      
                     ),
                     Container(
-                      child: const Padding (padding:EdgeInsets.all(20),
-                    child:Text("breed")
-                    ),
+                      child: Padding(
+                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['breed'])),
                       margin: const EdgeInsets.all(25),
-                      
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -76,14 +83,11 @@ class petdesc extends StatelessWidget {
                           30,
                         ),
                       ),
-                      
                     ),
                     Container(
-                      child: const Padding (padding:EdgeInsets.all(20),
-                    child:Text("location")
-                    ),
-                      margin: const EdgeInsets.all(25
-                      ),
+                      child: Padding(
+                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['description'])),
+                      margin: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -94,14 +98,11 @@ class petdesc extends StatelessWidget {
                           30,
                         ),
                       ),
-                      
                     ),
                     Container(
-                     child: const Padding (padding:EdgeInsets.all(20),
-                    child:Text("contact")
-                    ),
-                      margin: const EdgeInsets.all(25
-                      ),
+                      child: Padding(
+                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['location'])),
+                      margin: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -111,16 +112,15 @@ class petdesc extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                           30,
                         ),
-                        
                       ),
-                      
                     ),
-                    
-                
-            
-          ],
-        ),
+                  ],
+                ),
+              ),
+            );
+          }
+        },
       ),
-    ),);
+    );
   }
 }

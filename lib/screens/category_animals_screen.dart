@@ -4,6 +4,7 @@ import 'package:pet_adoption_app/screens/pet_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../widgets/appbar_drawer.dart';
+import '../screens/petdesc.dart';
 // import '../models/animal_in_category.dart';
 // import '../providers/animals.dart';
 
@@ -20,6 +21,11 @@ class CategoryAnimalsScreen extends StatelessWidget {
   //   }).toList();
   //   return animals;
   // }
+
+  void _showDescriptionPage(BuildContext context,String id)
+  {
+    Navigator.of(context).pushNamed(PetDesc.routeName,arguments: {'pet_id':id});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,31 +72,36 @@ class CategoryAnimalsScreen extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: petDocs.length,
                         itemBuilder: (ctx, index) {
-                          return Container(
-                            margin: const EdgeInsets.all(
-                              10,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 3.0,
-                                style: BorderStyle.solid,
+                          return InkWell(
+                            onTap: () {
+                              _showDescriptionPage(context,petDocs[index].id);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(
+                                10,
                               ),
-                              borderRadius: BorderRadius.circular(
-                                30,
-                              ),
-                            ),
-                            child: ListTile(
-                              leading: const CircleAvatar(
-                                backgroundColor: Colors.brown,
-                              ),
-                              title: Text(
-                                petDocs[index]['name'],
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 3.0,
+                                  style: BorderStyle.solid,
                                 ),
-                                textAlign: TextAlign.start,
+                                borderRadius: BorderRadius.circular(
+                                  30,
+                                ),
+                              ),
+                              child: ListTile(
+                                leading: const CircleAvatar(
+                                  backgroundColor: Colors.brown,
+                                ),
+                                title: Text(
+                                  petDocs[index]['name'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
                               ),
                             ),
                           );

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:pet_adoption_app/screens/petdesc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
 import './screens/home_screen.dart';
 import './screens/pet_screen.dart';
-import './providers/animals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/': (ctx) => HomeScreen(),
         CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
         PetScreen.routeName: (context) => PetScreen(),
+        PetDesc.routeName:(context) => PetDesc(),
       },
     );
   }
