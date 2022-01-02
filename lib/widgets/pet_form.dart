@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PetForm extends StatefulWidget {
   final String categoryId;
@@ -18,11 +22,26 @@ class _PetFormState extends State<PetForm> {
   String _description = "";
   String _breed = "";
   num _age = 0;
+  dynamic _storedImage;
 
   // bool _isEmpty()
   // {
   //   return _name.trim().isEmpty && _location.trim().isEmpty && _description.trim().isEmpty && _breed.trim().isEmpty && _age == 0;
   // }
+
+  Future<void> _takePicture() async {
+    final picker = ImagePicker();
+    final imageFile = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+    if (imageFile == null) {
+      return;
+    }
+    setState(() {
+      _storedImage = File(imageFile.path);
+    });
+  }
 
   void _submitForm(BuildContext context) async {
     bool _isValid = _formKey.currentState!.validate();
@@ -37,16 +56,44 @@ class _PetFormState extends State<PetForm> {
         'breed': _breed,
         'location': _location,
         'category': widget.categoryId,
+        'user': FirebaseAuth.instance.currentUser!.uid,
       });
       Navigator.of(context).pop();
     }
   }
 
   Widget _avatar() {
-    return Center(
-      child: CircleAvatar(
-        backgroundColor: Colors.brown[500],
-        radius: 100, //Text
+    return InkWell(
+      onTap: _takePicture,
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 15,
+        ),
+        height: 150,
+        width: 150,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: Colors.brown,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: _storedImage != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  75,
+                ),
+                child: Image.file(
+                  _storedImage as File,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              )
+            : const Icon(
+                Icons.camera_alt_rounded,
+                size: 40,
+              ),
       ),
     );
   }
@@ -301,7 +348,7 @@ class _PetFormState extends State<PetForm> {
             _buildBreed(),
             _buildDescription(),
             _buildLocation(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(

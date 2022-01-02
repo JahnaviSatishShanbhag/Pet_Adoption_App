@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../widgets/appbar_drawer.dart';
 
 class PetDesc extends StatelessWidget {
@@ -23,7 +25,7 @@ class PetDesc extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else{
+          } else {
             return Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -35,8 +37,9 @@ class PetDesc extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(snapshot.data!['name']),),
+                        padding: const EdgeInsets.all(20),
+                        child: Text(snapshot.data!['name']),
+                      ),
                       margin: const EdgeInsets.all(
                         25,
                       ),
@@ -69,7 +72,8 @@ class PetDesc extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['breed'])),
+                          padding: EdgeInsets.all(20),
+                          child: Text(snapshot.data!['breed'])),
                       margin: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -84,7 +88,8 @@ class PetDesc extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['description'])),
+                          padding: const EdgeInsets.all(20),
+                          child: Text(snapshot.data!['description'])),
                       margin: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -99,7 +104,8 @@ class PetDesc extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(20), child: Text(snapshot.data!['location'])),
+                          padding: EdgeInsets.all(20),
+                          child: Text(snapshot.data!['location'])),
                       margin: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -112,6 +118,10 @@ class PetDesc extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (FirebaseAuth.instance.currentUser!.uid !=
+                        snapshot.data!['user'])
+                      RaisedButton(
+                          child: const Text('Adopt'), onPressed: () {}),
                   ],
                 ),
               ),
