@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pet_adoption_app/screens/auth_screen.dart';
+import 'package:pet_adoption_app/screens/home_screen.dart';
 
 class Appbar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -24,9 +27,10 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize
-  {
-    return const Size.fromHeight(50,);
+  Size get preferredSize {
+    return const Size.fromHeight(
+      50,
+    );
   }
 }
 
@@ -72,21 +76,25 @@ class MainDrawer extends StatelessWidget {
             leading: const Icon(Icons.message),
             title: const Text('Categories'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (ctx) => HomeScreen()));
             },
           ),
           ListTile(
             leading: const Icon(Icons.account_circle),
             title: const Text('Create an Account'),
             onTap: () {
-
+              // FirebaseAuth.instance.signOut();
             },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Log Out'),
-            onTap: () {
-              
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (ctx) => AuthScreen(),
+              ));
             },
           ),
         ],

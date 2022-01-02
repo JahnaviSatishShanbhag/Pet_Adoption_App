@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import '../screens/home_screen.dart';
 
 class AuthForm extends StatefulWidget {
+
   @override
   _AuthFormState createState() => _AuthFormState();
+
 }
 
 class _AuthFormState extends State<AuthForm> {
@@ -13,16 +19,59 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = "";
   String _userPassword = "";
   bool _isLogin = true;
+  bool _isLoading=false;
 
-  void _trySubmit() {
+  @override
+  void dispose()
+  {
+    super.dispose();
+    _isLoading;
+  }
+
+  void _trySubmit() async {
     final _isValid = _formKey.currentState!.validate();
     if (_isValid) {
       _formKey.currentState!.save();
-      print(_userName);
-      print(_userEmail);
-      print(_userPassword);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      final _auth = FirebaseAuth.instance;
+      UserCredential _authResult;
+      try {
+        setState(() {
+          _isLoading=true;
+        });
+        if (_isLogin) {
+          _authResult = await _auth.signInWithEmailAndPassword(
+              email: _userEmail, password: _userPassword);
+        } else {
+          _authResult = await _auth.createUserWithEmailAndPassword(
+              email: _userEmail, password: _userPassword);
+          await FirebaseFirestore.instance.collection('users').doc(_authResult.user!.uid).set({
+            'username':_userName,
+            'email':_userEmail,
+          });
+        }
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      } on PlatformException catch (err) {
+        String message = 'An error occured. Please check your credentials!';
+        print("Here");
+        if (err.message != null) {
+          message = err.message as String;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            message,
+          ),
+          backgroundColor: Theme.of(context).errorColor,
+        ));
+        setState(() {
+          _isLoading=false;
+        });
+      } catch (error) {
+        print('error');
+        setState(() {
+          _isLoading=false;
+        });
+      }
     }
   }
 
@@ -181,6 +230,8 @@ class _AuthFormState extends State<AuthForm> {
                 const SizedBox(
                   height: 12,
                 ),
+                if (_isLoading) const CircularProgressIndicator(color:Colors.brown,),
+                if (!_isLoading)
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -189,7 +240,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                   height: 50,
-                  child: RaisedButton(
+                  child:RaisedButton(
                     child: Text(
                       _isLogin ? 'Login' : 'Signup',
                       style: const TextStyle(
@@ -203,6 +254,7 @@ class _AuthFormState extends State<AuthForm> {
                     },
                   ),
                 ),
+                if (!_isLoading)
                 FlatButton(
                   child: Text(
                     _isLogin

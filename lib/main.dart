@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adoption_app/screens/petdesc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
@@ -38,12 +39,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: colorCustom,
         accentColor: Colors.white,
       ),
-      initialRoute: '/',
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return HomeScreen();
+          }
+          else
+          {
+            return AuthScreen();
+          }
+        },
+      ),
       routes: {
-        '/': (ctx) => HomeScreen(),
         CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
         PetScreen.routeName: (context) => PetScreen(),
-        PetDesc.routeName:(context) => PetDesc(),
+        PetDesc.routeName: (context) => PetDesc(),
       },
     );
   }
