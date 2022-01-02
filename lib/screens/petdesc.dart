@@ -31,9 +31,9 @@ class PetDesc extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.brown,
-                      radius: 50,
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data!['image']),
+                      radius: 75,
                     ),
                     Container(
                       child: Padding(

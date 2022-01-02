@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class PetForm extends StatefulWidget {
   final String categoryId;
@@ -23,17 +25,24 @@ class _PetFormState extends State<PetForm> {
   String _breed = "";
   num _age = 0;
   dynamic _storedImage;
+  bool _isLoading = false;
 
   // bool _isEmpty()
   // {
   //   return _name.trim().isEmpty && _location.trim().isEmpty && _description.trim().isEmpty && _breed.trim().isEmpty && _age == 0;
   // }
 
+  void dispose() {
+    super.dispose();
+    _isLoading;
+  }
+
   Future<void> _takePicture() async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
       source: ImageSource.camera,
-      maxWidth: 600,
+      maxWidth: 150,
+      imageQuality: 50,
     );
     if (imageFile == null) {
       return;
@@ -45,20 +54,50 @@ class _PetFormState extends State<PetForm> {
 
   void _submitForm(BuildContext context) async {
     bool _isValid = _formKey.currentState!.validate();
+    if (_storedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please take a picture'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
+
     if (_isValid) {
-      _formKey.currentState!.save();
-      // Provider.of<Animals>(context, listen: false)
-      //     .addPet(widget.categoryId, _name, _description);
-      await FirebaseFirestore.instance.collection('pets_in_category').add({
-        'name': _name,
-        'age': _age,
-        'description': _description,
-        'breed': _breed,
-        'location': _location,
-        'category': widget.categoryId,
-        'user': FirebaseAuth.instance.currentUser!.uid,
+      setState(() {
+        _isLoading = true;
       });
-      Navigator.of(context).pop();
+      try {
+        _formKey.currentState!.save();
+        // Provider.of<Animals>(context, listen: false)
+        //     .addPet(widget.categoryId, _name, _description);
+        var uuid = const Uuid();
+        var basename = FirebaseAuth.instance.currentUser!.uid + uuid.v1();
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('animals')
+            .child(basename + ".jpg");
+        await ref.putFile(_storedImage);
+        String imageUrl = await ref.getDownloadURL();
+
+        await FirebaseFirestore.instance.collection('pets_in_category').add({
+          'name': _name,
+          'age': _age,
+          'description': _description,
+          'breed': _breed,
+          'location': _location,
+          'category': widget.categoryId,
+          'user': FirebaseAuth.instance.currentUser!.uid,
+          'image': imageUrl,
+        });
+        Navigator.of(context).pop();
+      } catch (error) {
+        print(error);
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -335,33 +374,39 @@ class _PetFormState extends State<PetForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _avatar(),
-            _buildName(),
-            _buildAge(),
-            _buildBreed(),
-            _buildDescription(),
-            _buildLocation(),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: RaisedButton(
-                child: const Text('Submit',
-                    style: TextStyle(color: Colors.brown, fontSize: 17)),
-                onPressed: () {
-                  _submitForm(context);
-                },
+    return _isLoading
+        ? const Center(
+            child: CircularProgressIndicator(
+              color: Colors.brown,
+            ),
+          )
+        : SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _avatar(),
+                  _buildName(),
+                  _buildAge(),
+                  _buildBreed(),
+                  _buildDescription(),
+                  _buildLocation(),
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(
+                      child: const Text('Submit',
+                          style: TextStyle(color: Colors.brown, fontSize: 17)),
+                      onPressed: () {
+                        _submitForm(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
