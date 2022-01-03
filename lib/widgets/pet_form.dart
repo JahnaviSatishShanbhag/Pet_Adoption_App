@@ -23,6 +23,7 @@ class _PetFormState extends State<PetForm> {
   String _location = "";
   String _description = "";
   String _breed = "";
+  String _contact="";
   num _age = 0;
   dynamic _storedImage;
   bool _isLoading = false;
@@ -90,6 +91,7 @@ class _PetFormState extends State<PetForm> {
           'category': widget.categoryId,
           'user': FirebaseAuth.instance.currentUser!.uid,
           'image': imageUrl,
+          'contact':_contact,
         });
         Navigator.of(context).pop();
       } catch (error) {
@@ -372,6 +374,52 @@ class _PetFormState extends State<PetForm> {
     );
   }
 
+  Widget _buildContact() {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      child: TextFormField(
+        cursorColor: Colors.brown,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.brown,
+              style: BorderStyle.solid,
+              width: 100,
+            ),
+            borderRadius: BorderRadius.circular(
+              25,
+            ),
+          ),
+          labelText: 'Contact',
+          hintStyle: const TextStyle(
+            fontSize: 17,
+          ),
+          fillColor: const Color.fromRGBO(241, 194, 125, 0.9),
+          filled: true,
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.brown,
+              width: 3.0,
+              style: BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(
+              25,
+            ),
+          ),
+        ),
+        validator: (value) {
+          if (value!.isEmpty || value.length < 10) {
+            return 'Enter the contact number with minimum length 10';
+          }
+          return null;
+        },
+        onSaved: (value) {
+          _contact = value as String;
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
@@ -392,6 +440,7 @@ class _PetFormState extends State<PetForm> {
                   _buildAge(),
                   _buildBreed(),
                   _buildDescription(),
+                  _buildLocation(),
                   _buildLocation(),
                   const SizedBox(height: 30),
                   Padding(
