@@ -31,97 +31,116 @@ class PetDesc extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(snapshot.data!['image']),
-                      radius: 75,
-                    ),
                     Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Text(snapshot.data!['name']),
-                      ),
-                      margin: const EdgeInsets.all(
-                        25,
-                      ),
                       decoration: BoxDecoration(
                         border: Border.all(
+                          width: 1,
                           color: Colors.black,
-                          width: 3.0,
-                          style: BorderStyle.solid,
                         ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(snapshot.data!['image']),
+                        radius: 100,
                       ),
                     ),
                     Container(
                       child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(snapshot.data!['age'].toString())),
-                      margin: const EdgeInsets.all(25),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 3.0,
-                          style: BorderStyle.solid,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
+                        padding: const EdgeInsets.all(10),
+                        child: Text("Name: " + snapshot.data!['name']),
+                      ),
+                      margin: const EdgeInsets.only(
+                        top: 50,
+                        bottom: 10,
+                        left: 10,
+                        right: 10,
+                      ),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
                         ),
                       ),
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text(snapshot.data!['breed'])),
-                      margin: const EdgeInsets.all(25),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 3.0,
-                          style: BorderStyle.solid,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(snapshot.data!['description'])),
-                      margin: const EdgeInsets.all(25),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 3.0,
-                          style: BorderStyle.solid,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
+                          padding: const EdgeInsets.all(10),
+                          child:
+                              Text("Age: " + snapshot.data!['age'].toString())),
+                      margin: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
                         ),
                       ),
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text(snapshot.data!['location'])),
-                      margin: const EdgeInsets.all(25),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 3.0,
-                          style: BorderStyle.solid,
+                          padding: EdgeInsets.all(10),
+                          child: Text("Breed: " + snapshot.data!['breed'])),
+                      margin: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
                         ),
-                        borderRadius: BorderRadius.circular(
-                          30,
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                              "Description: " + snapshot.data!['description'])),
+                      margin: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child:
+                              Text("Location: " + snapshot.data!['location'])),
+                      margin: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
                         ),
                       ),
                     ),
                     if (FirebaseAuth.instance.currentUser!.uid !=
                         snapshot.data!['user'])
-                      RaisedButton(
-                          child: const Text('Adopt'), onPressed: () {}),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 60,
+                          vertical: 20,
+                        ),
+                        child: RaisedButton(
+                            color: Colors.brown,
+                            child: const Text(
+                              'Adopt',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            onPressed: () {}),
+                      ),
                   ],
                 ),
               ),

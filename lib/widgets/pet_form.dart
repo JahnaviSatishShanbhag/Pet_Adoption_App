@@ -108,20 +108,20 @@ class _PetFormState extends State<PetForm> {
         margin: const EdgeInsets.only(
           top: 15,
         ),
-        height: 150,
-        width: 150,
+        height: 200,
+        width: 200,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(
             width: 1,
-            color: Colors.brown,
+            color: Colors.black,
           ),
           shape: BoxShape.circle,
         ),
         child: _storedImage != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(
-                  75,
+                  100,
                 ),
                 child: Image.file(
                   _storedImage as File,
