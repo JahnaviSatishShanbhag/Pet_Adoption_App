@@ -44,9 +44,7 @@ class MyApp extends StatelessWidget {
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {
             return HomeScreen();
-          }
-          else
-          {
+          } else {
             return AuthScreen();
           }
         },
