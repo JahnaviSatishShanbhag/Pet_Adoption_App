@@ -31,14 +31,17 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(
                   10,
                 ),
+                
                 child: GridView(
                   shrinkWrap: true,
                   children: [
+                    
                     ...DUMMY_ANIMALS_CATEGORY
                         .map((category) => CategoryItem(
                             category.id, category.title, category.color))
                         .toList()
                   ],
+                  
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     mainAxisSpacing: 20,
@@ -49,6 +52,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
+          
         backgroundColor: Theme.of(context).primaryColor,
     );
   }

@@ -37,7 +37,8 @@ class ProfileScreen extends StatelessWidget {
               stream: FirebaseFirestore.instance
                   .collection('pets_in_category')
                   .where('user',
-                      isEqualTo: FirebaseAuth.instance.currentUser!.uid).where('adoptedBy',isEqualTo: "")
+                      isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .where('adoptedBy', isEqualTo: "")
                   .snapshots(),
               builder: (ctx, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,8 +136,20 @@ class ProfileScreen extends StatelessWidget {
                                             _formKey.currentState!.validate();
                                         if (_isValid) {
                                           _formKey.currentState!.save();
-                                          FirebaseFirestore.instance.collection('users').where('email',isEqualTo: _email,).get().then((data) async{
-                                            await FirebaseFirestore.instance.collection('pets_in_category').doc(petDocs[index].id).update({'adoptedBy':data.docs[0].id});
+                                          FirebaseFirestore.instance
+                                              .collection('users')
+                                              .where(
+                                                'email',
+                                                isEqualTo: _email,
+                                              )
+                                              .get()
+                                              .then((data) async {
+                                            await FirebaseFirestore.instance
+                                                .collection('pets_in_category')
+                                                .doc(petDocs[index].id)
+                                                .update({
+                                              'adoptedBy': data.docs[0].id
+                                            });
                                             Navigator.of(context).pop();
                                           });
                                         }
@@ -162,6 +175,13 @@ class ProfileScreen extends StatelessWidget {
                 }
               },
             ),
+          ),
+          const Divider(
+            color: Colors.black,
+            height: 20,
+            thickness: 2,
+            indent: 10,
+            endIndent: 10,
           ),
           Container(
             margin: const EdgeInsets.all(
@@ -233,6 +253,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 }

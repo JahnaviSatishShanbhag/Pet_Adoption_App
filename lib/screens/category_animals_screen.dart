@@ -55,7 +55,8 @@ class CategoryAnimalsScreen extends StatelessWidget {
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('pets_in_category')
-                    .where('category', isEqualTo: routeArgs['id']).where('adoptedBy',isEqualTo: "")
+                    .where('category', isEqualTo: routeArgs['id'])
+                    .where('adoptedBy', isEqualTo: "")
                     .snapshots(),
                 builder: (ctx, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
