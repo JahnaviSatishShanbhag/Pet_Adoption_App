@@ -23,7 +23,7 @@ class _PetFormState extends State<PetForm> {
   String _location = "";
   String _description = "";
   String _breed = "";
-  String _contact="";
+  String _contact = "";
   num _age = 0;
   dynamic _storedImage;
   bool _isLoading = false;
@@ -42,8 +42,6 @@ class _PetFormState extends State<PetForm> {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
       source: ImageSource.camera,
-      maxWidth: 150,
-      imageQuality: 50,
     );
     if (imageFile == null) {
       return;
@@ -91,7 +89,8 @@ class _PetFormState extends State<PetForm> {
           'category': widget.categoryId,
           'user': FirebaseAuth.instance.currentUser!.uid,
           'image': imageUrl,
-          'contact':_contact,
+          'contact': _contact,
+          'adoptedBy': "",
         });
         Navigator.of(context).pop();
       } catch (error) {
@@ -441,7 +440,7 @@ class _PetFormState extends State<PetForm> {
                   _buildBreed(),
                   _buildDescription(),
                   _buildLocation(),
-                  _buildLocation(),
+                  _buildContact(),
                   const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),

@@ -7,6 +7,7 @@ import './screens/auth_screen.dart';
 import './screens/category_animals_screen.dart';
 import './screens/home_screen.dart';
 import './screens/pet_screen.dart';
+import './screens/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         CategoryAnimalsScreen.routeName: (context) => CategoryAnimalsScreen(),
         PetScreen.routeName: (context) => PetScreen(),
         PetDesc.routeName: (context) => PetDesc(),
+        ProfileScreen.routeName: (context) => ProfileScreen(),
       },
     );
   }
