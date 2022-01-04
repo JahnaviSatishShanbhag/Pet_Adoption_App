@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import '../screens/home_screen.dart';
 
@@ -67,7 +66,7 @@ class _AuthFormState extends State<AuthForm> {
           _isLoading=false;
         });
       } catch (error) {
-        print('error');
+        print(error);
         setState(() {
           _isLoading=false;
         });

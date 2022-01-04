@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/appbar_drawer.dart';
 
@@ -23,7 +25,7 @@ class PetDesc extends StatelessWidget {
         builder: (ctx, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color:Colors.brown,),
             );
           } else {
             return Center(
@@ -110,9 +112,23 @@ class PetDesc extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child:
                               Text("Location: " + snapshot.data!['location'])),
+                      margin: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Colors.brown,
+                              style: BorderStyle.solid,
+                              width: 1.0),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Contact: " + snapshot.data!['contact'])),
                       margin: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
                         border: Border(
@@ -126,7 +142,7 @@ class PetDesc extends StatelessWidget {
                     if (FirebaseAuth.instance.currentUser!.uid !=
                         snapshot.data!['user'])
                       Container(
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           horizontal: 60,
                           vertical: 20,
                         ),
@@ -139,7 +155,76 @@ class PetDesc extends StatelessWidget {
                                 fontSize: 16,
                               ),
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        actionsPadding: EdgeInsets.zero,
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              padding: const EdgeInsets.only(
+                                                top: 45,
+                                              ),
+                                              icon: const Icon(Icons.call),
+                                              iconSize: 80,
+                                              onPressed: () async {
+                                                var uri =
+                                                    'tel:${snapshot.data!['contact']}';
+                                                if (await canLaunch(uri)) {
+                                                  await launch(uri);
+                                                } else {
+                                                  throw 'Could not launch $uri';
+                                                }
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                  Icons.mail_outline),
+                                              iconSize: 80,
+                                              padding: const EdgeInsets.only(
+                                                top: 45,
+                                              ),
+                                              onPressed: () async {
+                                                // Android and iOS
+                                                String _email = "";
+                                                FirebaseFirestore.instance
+                                                    .doc(
+                                                        'users/${snapshot.data!['user']}')
+                                                    .get()
+                                                    .then((data) async {
+                                                  _email = data['email'];
+                                                  var uri = 'mailto:$_email';
+                                                  if (await canLaunch(uri)) {
+                                                    await launch(uri);
+                                                  } else {
+                                                    throw 'Could not launch $uri';
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            textColor: Colors.brown,
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ));
+                            }),
                       ),
                   ],
                 ),

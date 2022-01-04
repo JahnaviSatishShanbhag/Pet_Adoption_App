@@ -22,9 +22,9 @@ class CategoryAnimalsScreen extends StatelessWidget {
   //   return animals;
   // }
 
-  void _showDescriptionPage(BuildContext context,String id)
-  {
-    Navigator.of(context).pushNamed(PetDesc.routeName,arguments: {'pet_id':id});
+  void _showDescriptionPage(BuildContext context, String id) {
+    Navigator.of(context)
+        .pushNamed(PetDesc.routeName, arguments: {'pet_id': id});
   }
 
   @override
@@ -35,7 +35,6 @@ class CategoryAnimalsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: Appbar(),
-      drawer: MainDrawer(),
       backgroundColor: Theme.of(context).primaryColor,
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -56,12 +55,14 @@ class CategoryAnimalsScreen extends StatelessWidget {
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('pets_in_category')
-                    .where('category',isEqualTo: routeArgs['id'])
+                    .where('category', isEqualTo: routeArgs['id']).where('adoptedBy',isEqualTo: "")
                     .snapshots(),
                 builder: (ctx, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: Colors.brown,
+                      ),
                     );
                   } else {
                     final petDocs =
@@ -74,7 +75,7 @@ class CategoryAnimalsScreen extends StatelessWidget {
                         itemBuilder: (ctx, index) {
                           return InkWell(
                             onTap: () {
-                              _showDescriptionPage(context,petDocs[index].id);
+                              _showDescriptionPage(context, petDocs[index].id);
                             },
                             child: Container(
                               margin: const EdgeInsets.all(
@@ -111,6 +112,8 @@ class CategoryAnimalsScreen extends StatelessWidget {
           ),
           RaisedButton(
               child: const Text('Add'),
+              color: Colors.brown,
+              textColor: Colors.white,
               onPressed: () {
                 Navigator.of(context)
                     .pushNamed(PetScreen.routeName, arguments: {
