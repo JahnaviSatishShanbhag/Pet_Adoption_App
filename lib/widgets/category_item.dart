@@ -6,11 +6,13 @@ class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
   final Color colour;
+  final String image;
 
   CategoryItem(
     this.id,
     this.title,
     this.colour,
+    this.image,
   );
 
   void _selectCategory(BuildContext context) {
@@ -28,17 +30,13 @@ class CategoryItem extends StatelessWidget {
         _selectCategory(context);
       },
       child: Container(
-        child: Center(
-            child: Text(title,
-                style: const TextStyle(
-                  fontSize: 20,
-                ))),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            15,
-          ),
-          color: colour,
-        ),
+            borderRadius: BorderRadius.circular(
+              15,
+            ),
+            image:  DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage("assets/"+image+".jpg"))),
       ),
     );
   }

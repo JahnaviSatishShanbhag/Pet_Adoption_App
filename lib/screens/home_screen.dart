@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                     
                     ...DUMMY_ANIMALS_CATEGORY
                         .map((category) => CategoryItem(
-                            category.id, category.title, category.color))
+                            category.id, category.title, category.color,category.img))
                         .toList()
                   ],
                   
