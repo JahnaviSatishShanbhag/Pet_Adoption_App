@@ -14,18 +14,18 @@ class HomeScreen extends StatelessWidget {
         body: Column(
             children: [
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               const Text(
                 'Categories',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 50,
                   fontWeight: FontWeight.w800,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
-                height: 20,
+                height: 65,
               ),
               Padding(
                 padding: const EdgeInsets.all(
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                     maxCrossAxisExtent: 200,
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 20,
-                    childAspectRatio: 3 / 2,
+                    childAspectRatio: 1.4,
                   ),
                 ),
               ),

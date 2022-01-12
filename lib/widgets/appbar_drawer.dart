@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screens/auth_screen.dart';
 import '../screens/home_screen.dart';
@@ -73,6 +74,26 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height:15,),
+          StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
+                    .snapshots(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.brown,
+                      ),
+                    );
+                  } else {
+                    final userDocs =
+                        (snapshot.data as QuerySnapshot<Map<String, dynamic>>)
+                            .docs;
+                    return Text("Hi, ${userDocs[0]['username']}",style:const TextStyle(fontSize: 15,color: Colors.brown,),textAlign: TextAlign.left,);
+                  }
+                }),
           const SizedBox(
             height: 20,
           ),

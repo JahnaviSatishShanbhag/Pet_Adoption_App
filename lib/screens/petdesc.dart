@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/appbar_drawer.dart';
@@ -33,6 +32,8 @@ class PetDesc extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const 
+                    SizedBox(height:10,),
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -43,7 +44,7 @@ class PetDesc extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(snapshot.data!['image']),
-                        radius: 100,
+                        radius: 130,
                       ),
                     ),
                     Container(

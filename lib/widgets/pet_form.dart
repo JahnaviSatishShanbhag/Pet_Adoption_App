@@ -41,7 +41,7 @@ class _PetFormState extends State<PetForm> {
   Future<void> _takePicture() async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     );
     if (imageFile == null) {
       return;
@@ -122,7 +122,7 @@ class _PetFormState extends State<PetForm> {
         child: _storedImage != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(
-                  100,
+                  70,
                 ),
                 child: Image.file(
                   _storedImage as File,
