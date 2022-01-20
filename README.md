@@ -6,10 +6,9 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [To run this pet adoption application use the command] flutter run
-In command promt navigate to the respective foldre where the project lies and type the command
+- To run this pet adoption application use the command 
+  - In command prompt navigate to the respective folder where the project lies and type the command
+  - Then type flutter run
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
